@@ -364,7 +364,7 @@ class PyTestRunner:
                     'echo "python path: "',
                     'python -c "import sys; print(sys.path)"',
                     command,
-                    f"mv monkeytype.sqlite3 {self._project_name}",
+                    f"mv monkeytype.sqlite3 {str(self._config.repository)}",
                 ]
 
                 # copy sqlite coverage database

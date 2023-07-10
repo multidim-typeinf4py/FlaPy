@@ -124,6 +124,14 @@ echo "end_time:               $END_DATE" >> $META_FILE
 echo "execution_time:         $RUNTIME"  >> $META_FILE
 
 # -- COPY RESULTS BACK
+MONKEYTYPE_FILE=${REPOSITORY_DIR}/monkeytype.sqlite3
+if [ -f "$MONKEYTYPE_FILE" ]; then
+    debug_echo "MonkeyType File found; copying to ${CWD}/sameOrder/monkeytype.sqlite3"
+    mv $MONKEYTYPE_FILE ${CWD}/sameOrder/monkeytype.sqlite3
+else
+    debug_echo "NO MONKEYTYPE FILE EXISTS"
+fi
+
 if [[ $PLUS_RANDOM_RUNS = true ]]
 then
     debug_echo "Copy results back (incl random runs)"
