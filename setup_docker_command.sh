@@ -12,7 +12,7 @@ SCRIPT_DIR=$(dirname $0)
 source "$SCRIPT_DIR/utils.sh"
 
 debug_echo "-- Define FlaPy docker image"
-export FLAPY_DOCKER_IMAGE="registry.hub.docker.com/gruberma/flapy"
+export FLAPY_DOCKER_IMAGE="mdti4py-flapy-monkeytype"
 
 debug_echo "-- Creating alias 'flapy_docker_command'"
 function flapy_docker_command {

@@ -1,4 +1,4 @@
-FROM registry.hub.docker.com/library/python:3.10.1-bullseye AS build
+FROM registry.hub.docker.com/library/python:3.10-bullseye AS build
 
 WORKDIR /flapy_build
 
@@ -20,7 +20,7 @@ RUN pip install "poetry==${POETRY_VERSION}" \
 
 
 # -- EXECUTE --
-FROM registry.hub.docker.com/library/python:3.10.1-bullseye AS execute
+FROM registry.hub.docker.com/library/python:3.10-bullseye AS execute
 
 ENV FLAPY_VERSION="0.2.0"
 

@@ -16,6 +16,7 @@ import argparse
 import contextlib
 import logging
 import ntpath
+import pprint
 import os
 import shutil
 import subprocess
@@ -193,6 +194,7 @@ class VirtualEnvironment:
         command_list = [
             "source {}".format(os.path.join(self._env_dir, "bin", "activate")),
             "python -V",
+            "pip install --upgrade pip",
         ]
         # Install dependencies
         for reqs_file in self._requirements_files:
@@ -202,7 +204,7 @@ class VirtualEnvironment:
         # Append other commands
         command_list.extend(commands)
         # Log commands
-        self._logger.info(f"executing commands {command_list}")
+        self._logger.info(f"executing commands {pprint.pformat(command_list)}")
         cmd = ";".join(command_list)
         # Execute commands
         process = subprocess.Popen(
@@ -309,6 +311,7 @@ class PyTestRunner:
                 env.add_package_for_installation("pytest==6.2.5")
                 if self._config.random_order_bucket is not None:
                     env.add_package_for_installation("pytest-random-order==1.0.4")
+                env.add_package_for_installation("monkeytype")
 
                 # START BUILDING COMMAND
                 command = ""
@@ -317,7 +320,7 @@ class PyTestRunner:
                 if self._config.trace not in [None, ""]:
                     command += f'pytest_trace "{self._config.trace}" {self._trace_output_file} '
                 else:
-                    command += "pytest "
+                    command += "monkeytype run `which pytest` "
 
                 # GENERAL PYTEST FLAGS
                 command += "-v --rootdir=. "
@@ -361,6 +364,7 @@ class PyTestRunner:
                     'echo "python path: "',
                     'python -c "import sys; print(sys.path)"',
                     command,
+                    f"mv monkeytype.sqlite3 {self._project_name}",
                 ]
 
                 # copy sqlite coverage database
@@ -393,6 +397,7 @@ class PyTestRunner:
             "requirements_dev.txt",
             "requirements-test.txt",
             "requirements_test.txt",
+            "poetry-requirements.txt",
         ]
         for file_name in possible_requirements_filenames:
             packages.extend(self.read_dependencies_from_requirements_file(self._path / file_name))

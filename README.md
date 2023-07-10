@@ -26,6 +26,8 @@ The FlaPy docker image will be pulled automatically on first usage.
 
 ### Preparing the input-csv
 
+For this fork: Use provided `make_flapy_input.sh`.
+
 Prepare a CSV file with the following columns (example: `flapy_input_example.csv`):
 ```
 PROJECT_NAME,PROJECT_URL,PROJECT_HASH,PYPI_TAG,FUNCS_TO_TRACE,TESTS_TO_BE_RUN,NUM_RUNS
