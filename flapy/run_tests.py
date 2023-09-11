@@ -363,7 +363,7 @@ class PyTestRunner:
                     'echo "which pytest: $(which pytest)"',
                     'echo "python path: "',
                     'python -c "import sys; print(sys.path)"',
-                    command,
+                    f'timeout --signal=SIGKILL 1h {command}',
                     f"mv monkeytype.sqlite3 {str(self._config.repository)}",
                 ]
 
