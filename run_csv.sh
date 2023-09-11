@@ -93,9 +93,12 @@ then
     echo "sbatch_submission_info: \"$sbatch_info\"" >> "$FLAPY_META_FILE"
 elif [[ $RUN_ON = "locally" ]]
 then
-    for i in $(seq 2 "$INPUT_CSV_LENGTH"); do
-        FLAPY_INPUT_CSV_LINE_NUM=$i "$SCRIPT_DIR/run_line.sh"
-    done
+    export SCRIPT_DIR
+    seq 2 "$INPUT_CSV_LENGTH" | xargs -I{} -P64 bash -c 'FLAPY_INPUT_CSV_LINE_NUM={} "$SCRIPT_DIR/run_line.sh"'
+    #for i in $(seq 2 "$INPUT_CSV_LENGTH"); do
+    #    FLAPY_INPUT_CSV_LINE_NUM=$i "$SCRIPT_DIR/run_line.sh"
+    #done
+    wait
 else
     debug_echo "Unknown value '$RUN_ON' for RUN_ON. Please use 'cluster' or 'locally'."
     exit
