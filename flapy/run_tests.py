@@ -353,8 +353,11 @@ class PyTestRunner:
                 # TESTS TO BE RUN
                 command += f"{self._tests_to_be_run} "
 
+                # Kill running process after 1h
+                command = f"timeout --signal=SIGTERM 1h {command}"
+
                 # PYTHONPATH=. is necessary to execute tests which are not contained in a module
-                command = "PYTHONPATH=. " + command
+                command = f"PYTHONPATH=. {command}"
 
                 # add debug output
                 commands = [
@@ -363,7 +366,7 @@ class PyTestRunner:
                     'echo "which pytest: $(which pytest)"',
                     'echo "python path: "',
                     'python -c "import sys; print(sys.path)"',
-                    f'timeout --signal=SIGKILL 1h {command}',
+                    command,
                     f"mv monkeytype.sqlite3 {str(self._config.repository)}",
                 ]
 
